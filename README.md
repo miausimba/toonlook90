@@ -15,9 +15,9 @@ es de libre uso aunque diga copyright pero pueden usarlo la liberdad para crear 
 
 1. Instala phyton puede ser de 3.8 hasta 3.13
 2. SI quieres puede crear un entorno virtual
-3. Instala los paquetes de flask, flask_sqlalchemy
+3. Instala los paquetes de requirements.txt
 ``` bash
-pip install flask sqlalchemy
+pip install -r requirements.txt
 ```
 4. ejecuta el programa en:
 ``` bash
