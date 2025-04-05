@@ -1,0 +1,28 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Archivos compilados
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dll
+*.exe
+*.pyd
+*.pyo
+*.pyz
+*.pyw
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+*.pkl
+*.pyc
+*.pyo
+*.pyd
+*.ipynb_checkpoints

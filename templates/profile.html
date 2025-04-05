@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Perfil</title>
+    <link rel="stylesheet" href="/static/retro.css">
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">Perfil de {{ usuario.username }}</h1>
+            <div class="nav">
+                <a href="/home" class="button-img">Inicio</a>
+                <a href="/profile" class="button-img">Mi Perfil</a>
+                <a href="/amigos" class="button-img">Amigos</a>
+                <a href="/notificaciones" class="button-img">Notificaciones {% if notificaciones_pendientes %}<span style="background-color: #FF0000; color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.8em;">{{ notificaciones_pendientes }}</span>{% endif %}</a>
+                <a href="/logout" class="button-img">Cerrar Sesión</a>
+            </div>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 7;">
+                <div class="perfil-container">
+                    <div class="perfil-header">Mi Espacio Personal</div>
+                    {% if es_propio_perfil %}
+                    <div class="form-retro">
+                        <form method="POST" action="/actualizar_perfil">
+                            <textarea name="perfil_html" class="editor-perfil" placeholder="Personaliza tu perfil con HTML">{{ usuario.perfil_html }}</textarea>
+                            <input type="submit" value="Guardar Cambios" class="submit-button">
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="mensaje">
+                        {{ usuario.perfil_html|safe }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="perfil-container" style="margin-top: 20px;">
+                    <div class="perfil-header">Mis Mensajes</div>
+                    {% for mensaje in mensajes %}
+                    <div class="mensaje">
+                        <div class="mensaje-contenido">{{ mensaje.contenido }}</div>
+                        <div class="mensaje-meta">{{ mensaje.fecha.strftime('%d/%m/%Y %H:%M') }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="flex: 3;">
+                <div class="perfil-container">
+                    <div class="perfil-header">Información del Usuario</div>
+                    <p>
+                        <strong>Estado:</strong>
+                        {% if usuario.esta_activo %}
+                        🟢 En línea
+                        {% else %}
+                        ⚫ Desconectado
+                        {% endif %}
+                    </p>
+                    <p><strong>Usuario:</strong> {{ usuario.username }}</p>
+                    <p><strong>Miembro desde:</strong> {{ usuario.fecha_registro.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Total de mensajes:</strong> {{ mensajes|length }}</p>
+                    <p><strong>Última actividad:</strong> {{ usuario.ultima_actividad.strftime('%d/%m/%Y %H:%M') }}</p>
+                    {% if not es_propio_perfil and not son_amigos %}
+                    <form action="/agregar_amigo/{{ usuario.id }}" method="POST" style="margin-top: 15px;">
+                        <button type="submit" class="submit-button" style="width: 100%; background-color: #666699; color: yellow; border: 2px outset #9999CC;">Agregar como Amigo</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+</body>
+</html>

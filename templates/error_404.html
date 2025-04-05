@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Página no encontrada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='retro.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">¡Oops! - Error 404</h1>
+        </div>
+        
+        <div class="perfil-container" style="text-align: center; padding: 40px;">
+            <div style="font-size: 72px; margin-bottom: 20px;">😵</div>
+            <h2 style="color: #9999CC; margin-bottom: 20px;">¡Esta página se perdió en el ciberespacio!</h2>
+            <p style="color: #666666; margin-bottom: 30px;">La página que buscas no existe o fue movida a otro lugar.</p>
+            <a href="{{ url_for('home') }}" class="button-img" style="display: inline-block; padding: 10px 20px; font-size: 1.2em; text-decoration: none; background-color: #333399; color: #FFFF00; border: 2px outset #9999FF;">
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Notificaciones</title>
+    <link rel="stylesheet" href="/static/retro.css">
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">Notificaciones</h1>
+            <div class="nav">
+                <a href="/home" class="button-img">Inicio</a>
+                <a href="/profile" class="button-img">Mi Perfil</a>
+                <a href="/amigos" class="button-img">Amigos</a>
+                <a href="/notificaciones" class="button-img">Notificaciones</a>
+                <a href="/logout" class="button-img">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <div class="perfil-container">
+            <div class="perfil-header">Solicitudes de Amistad</div>
+            {% if notificaciones %}
+                {% for notif in notificaciones %}
+                    <div class="mensaje" style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                        <div>
+                            <span style="color: #9999CC;">{{ notif.remitente.username }}</span> quiere ser tu amigo
+                            <div style="font-size: 0.8em; color: #666;">{{ notif.fecha.strftime('%d/%m/%Y %H:%M') }}</div>
+                        </div>
+                        <div>
+                            <form action="/responder_solicitud/{{ notif.id }}/aceptar" method="POST" style="display: inline;">
+                                <button type="submit" class="submit-button" style="background-color: #006600; margin-right: 5px;">Aceptar</button>
+                            </form>
+                            <form action="/responder_solicitud/{{ notif.id }}/rechazar" method="POST" style="display: inline;">
+                                <button type="submit" class="submit-button" style="background-color: #660000;">Rechazar</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="mensaje" style="text-align: center; color: #9999CC;">
+                    No tienes notificaciones pendientes
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

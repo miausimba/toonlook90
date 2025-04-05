@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Inicio</title>
+    <link rel="stylesheet" href="/static/retro.css">
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">¡Bienvenido a ToonLook!</h1>
+            <div class="nav">
+                <a href="/home" class="button-img">Inicio</a>
+                <a href="/profile" class="button-img">Mi Perfil</a>
+                <a href="/amigos" class="button-img">Amigos</a>
+                <a href="/notificaciones" class="button-img">Notificaciones {% if notificaciones_pendientes %}<span style="background-color: #FF0000; color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.8em;">{{ notificaciones_pendientes }}</span>{% endif %}</a>
+                <a href="/logout" class="button-img">Cerrar Sesión</a>
+            </div>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 7;">
+                <div class="perfil-container">
+                    <div class="perfil-header">Muro de Mensajes</div>
+                    <div class="form-retro">
+                        <form method="POST" action="/publicar">
+                            <textarea name="mensaje" class="editor-perfil" rows="3" placeholder="¿Qué estás pensando?"></textarea>
+                            <input type="submit" value="Publicar" class="submit-button">
+                        </form>
+                    </div>
+                    {% for mensaje in mensajes %}
+                    <div class="mensaje" style="background: #FFFFFF; border: 2px solid #9999FF; margin-bottom: 15px; padding: 15px; border-radius: 8px; box-shadow: 3px 3px 0 #333399;">
+                        <div class="mensaje-meta" style="border-bottom: 1px solid #9999CC; padding-bottom: 5px; margin-bottom: 10px; color: #333399; font-weight: bold;">
+                            <span style="float: left;">👤 <a href="/profile/{{ mensaje.autor.username }}" style="color: #333399; text-decoration: none;">{{ mensaje.autor.username }}</a></span>
+                            <span style="float: right;">🕒 {{ mensaje.fecha.strftime('%d/%m/%Y %H:%M') }}</span>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div class="mensaje-contenido" style="font-size: 1.1em; line-height: 1.4; color: #333;">{{ mensaje.contenido }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="flex: 3;">
+                <div class="usuarios-online">
+                    <h3>Lista de Usuarios</h3>
+                    <ul class="usuarios-lista">
+                        {% for usuario in usuarios %}
+                        <li>
+                            {% if usuario.esta_activo %}
+                            🟢
+                            {% else %}
+                            ⚫
+                            {% endif %}
+                            <a href="/profile/{{ usuario.username }}" style="color: #9999CC; text-decoration: none;">{{ usuario.username }}</a>
+                            <span style="font-size: 0.8em; color: #666;">- última actividad: {{ usuario.ultima_actividad.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="perfil-container" style="margin-top: 20px;">
+                    <div class="perfil-header">Noticias ToonLook</div>
+                    <marquee direction="up" scrollamount="1" height="150" style="color: #9999CC;">
+                        <p>¡Bienvenido a la nueva versión de ToonLook!</p>
+                        <p>Ahora puedes personalizar tu perfil con HTML</p>
+                        <p>Ahora podes ver los perfiles de tus amigos</p>
+                        <p>Ahora podes Agregar amigos </p>
+                        <p>Ahora podes ver la actividad de tus amigos :D</p>
+                    </marquee>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Registro</title>
+    <style>
+        .form-table { background-color: #000044; border: 2px outset #9999CC; }
+        .input-field { 
+            background-color: #000033; 
+            border: 2px inset #9999CC; 
+            color: #FFFFFF; 
+            padding: 5px; 
+        }
+        .submit-button {
+            background-color: #666699;
+            border: 2px outset #9999CC;
+            color: yellow;
+            padding: 5px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .submit-button:hover { border-style: inset; }
+    </style>
+</head>
+<body bgcolor="#000066" text="#FFFFFF" link="#FFFF00">
+    <table width="800" border="0" align="center" cellpadding="10">
+        <tr>
+            <td colspan="2" align="center">
+                <h1 style="font-family: 'Comic Sans MS'; color: #FFFF00">ToonLook</h1>
+                <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF">
+                    <marquee behavior="alternate">¡Regístrate en RetroSocial!</marquee>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="150" valign="top" bgcolor="#000033">
+                <a href="/" style="display: block; text-align: center; margin: 10px 0;">← Volver al inicio</a>
+                <marquee behavior="scroll" direction="up" height="100" scrollamount="2">
+                    ¡Crea tu cuenta!<br>
+                    ¡Es gratis!<br>
+                    ¡Personaliza tu perfil!<br>
+                </marquee>
+            </td>
+            <td valign="top" align="center">
+                <table class="form-table" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td>
+                            <h2>Registro de Usuario</h2>
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div style="color: #FF0000; margin: 10px 0;">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                            <form method="POST" action="/registro">
+                                <table cellspacing="10">
+                                    <tr>
+                                        <td>Usuario:</td>
+                                        <td><input type="text" name="username" class="input-field" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Contraseña:</td>
+                                        <td><input type="password" name="password" class="input-field" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <input type="submit" value="Registrarse" class="submit-button">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <div align="center">
+                    <font size="-1">© 2024 RetroSocial - Mejor visto en 800x600</font>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
