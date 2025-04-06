@@ -9,6 +9,16 @@ app.config['SECRET_KEY'] = 'tu_clave_secreta_aqui'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///social.db'
 db = SQLAlchemy(app)
 
+class VisitaPerfil(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    visitante_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    perfil_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __init__(self, visitante_id, perfil_id):
+        self.visitante_id = visitante_id
+        self.perfil_id = perfil_id
+
 class Amistad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
@@ -81,6 +91,10 @@ class Usuario(db.Model):
         backref='perfil',
         lazy='dynamic')
     configuracion = db.relationship('Configuracion', backref='usuario', uselist=False)
+    visitas_recibidas = db.relationship('VisitaPerfil',
+        foreign_keys='VisitaPerfil.perfil_id',
+        backref='perfil_visitado',
+        lazy='dynamic')
 
 class Notificacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -154,8 +168,20 @@ def profile(username=None):
     if username:
         usuario = Usuario.query.filter_by(username=username).first_or_404()
         if not usuario.id == session['user_id']:
-            usuario.visitas += 1
-            db.session.commit()
+            # Verificar si ya existe una visita del usuario actual hoy
+            hoy = datetime.utcnow().date()
+            visita_hoy = VisitaPerfil.query.filter(
+                VisitaPerfil.visitante_id == session['user_id'],
+                VisitaPerfil.perfil_id == usuario.id,
+                db.func.date(VisitaPerfil.fecha) == hoy
+            ).first()
+            
+            if not visita_hoy:
+                # Registrar nueva visita
+                nueva_visita = VisitaPerfil(session['user_id'], usuario.id)
+                db.session.add(nueva_visita)
+                usuario.visitas += 1
+                db.session.commit()
     else:
         usuario = Usuario.query.get(session['user_id'])
     
