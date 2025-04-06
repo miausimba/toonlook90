@@ -27,4 +27,4 @@ python app.py
 5. disfruta
 
 ## Imagen de muestra
-<img src="">
+<img src="views/captura_ejemplo.png">
