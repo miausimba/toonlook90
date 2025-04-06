@@ -128,8 +128,11 @@ def home():
         destinatario_id=session['user_id'],
         estado='pendiente'
     ).count()
-    return render_template('home.html', mensajes=mensajes, usuarios=usuarios, 
-                         current_user=current_user, notificaciones_pendientes=notificaciones_pendientes)
+    return render_template('home.html', 
+                         mensajes=mensajes, 
+                         usuarios=usuarios, 
+                         current_user=current_user, 
+                         notificaciones_pendientes=notificaciones_pendientes)
 
 @app.route('/publicar', methods=['POST'])
 def publicar():
@@ -159,8 +162,8 @@ def profile(username=None):
     mensajes = Mensaje.query.filter_by(autor_id=usuario.id).order_by(Mensaje.fecha.desc()).all()
     es_propio_perfil = usuario.id == session.get('user_id')
     son_amigos = False if es_propio_perfil else usuario in Usuario.query.get(session['user_id']).amigos
-    
-    return render_template('profile.html', usuario=usuario, mensajes=mensajes, es_propio_perfil=es_propio_perfil, son_amigos=son_amigos)
+    current_user = Usuario.query.get(session['user_id'])
+    return render_template('profile.html', usuario=usuario, mensajes=mensajes, es_propio_perfil=es_propio_perfil, son_amigos=son_amigos, current_user=current_user)
 
 @app.route('/amigos')
 def amigos():
@@ -392,10 +395,10 @@ def configuracion():
         try:
             # Configuración general
             usuario.configuracion.privacidad_perfil = request.form.get('privacidad_perfil', 'publico')
-            usuario.configuracion.mostrar_estado = request.form.get('mostrar_estado') == 'true'
-            usuario.configuracion.notificaciones_email = request.form.get('notificaciones_email') == 'true'
-            usuario.configuracion.notificaciones_mensajes = request.form.get('notificaciones_mensajes') == 'true'
-            usuario.configuracion.notificaciones_amigos = request.form.get('notificaciones_amigos') == 'true'
+            usuario.configuracion.mostrar_estado = request.form.get('mostrar_estado', 'false').lower() == 'true'
+            usuario.configuracion.notificaciones_email = request.form.get('notificaciones_email', 'false').lower() == 'true'
+            usuario.configuracion.notificaciones_mensajes = request.form.get('notificaciones_mensajes', 'false').lower() == 'true'
+            usuario.configuracion.notificaciones_amigos = request.form.get('notificaciones_amigos', 'false').lower() == 'true'
             
 
             
