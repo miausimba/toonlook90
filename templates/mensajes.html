@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Mensajes</title>
+    <link rel="stylesheet" href="/static/retro.css">
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">Mensajes Privados</h1>
+            <div class="nav">
+                <a href="/home" class="button-img">Inicio</a>
+                <a href="/profile" class="button-img">Mi Perfil</a>
+                <a href="/amigos" class="button-img">Amigos</a>
+                <a href="/mensajes" class="button-img">Mensajes</a>
+                <a href="/notificaciones" class="button-img">Notificaciones {% if notificaciones_pendientes %}<span style="background-color: #FF0000; color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.8em;">{{ notificaciones_pendientes }}</span>{% endif %}</a>
+                <a href="/logout" class="button-img">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1;">
+                <div class="perfil-container">
+                    <div class="perfil-header">Mensajes Recibidos</div>
+                    {% for mensaje in mensajes_recibidos %}
+                    <div class="mensaje" style="background: {% if not mensaje.leido %}#FFFFCC{% else %}#FFFFFF{% endif %}; border: 2px solid #9999FF; margin-bottom: 15px; padding: 15px; border-radius: 8px; box-shadow: 3px 3px 0 #333399;">
+                        <div class="mensaje-meta" style="border-bottom: 1px solid #9999CC; padding-bottom: 5px; margin-bottom: 10px; color: #333399; font-weight: bold;">
+                            <span style="float: left;">De: <a href="/profile/{{ mensaje.emisor.username }}" style="color: #333399; text-decoration: none;">{{ mensaje.emisor.username }}</a></span>
+                            <span style="float: right;">
+                                {% if not mensaje.leido %}
+                                <form method="POST" action="/marcar_leido/{{ mensaje.id }}" style="display: inline;">
+                                    <button type="submit" style="background: none; border: none; color: #333399; cursor: pointer; padding: 0 5px;">📖</button>
+                                </form>
+                                {% endif %}
+                                🕒 {{ mensaje.fecha.strftime('%d/%m/%Y %H:%M') }}
+                            </span>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div class="mensaje-contenido" style="font-size: 1.1em; line-height: 1.4; color: #333;">{{ mensaje.contenido }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div style="flex: 1;">
+                <div class="perfil-container">
+                    <div class="perfil-header">Mensajes Enviados</div>
+                    {% for mensaje in mensajes_enviados %}
+                    <div class="mensaje" style="background: #FFFFFF; border: 2px solid #9999FF; margin-bottom: 15px; padding: 15px; border-radius: 8px; box-shadow: 3px 3px 0 #333399;">
+                        <div class="mensaje-meta" style="border-bottom: 1px solid #9999CC; padding-bottom: 5px; margin-bottom: 10px; color: #333399; font-weight: bold;">
+                            <span style="float: left;">Para: <a href="/profile/{{ mensaje.receptor.username }}" style="color: #333399; text-decoration: none;">{{ mensaje.receptor.username }}</a></span>
+                            <span style="float: right;">🕒 {{ mensaje.fecha.strftime('%d/%m/%Y %H:%M') }}</span>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div class="mensaje-contenido" style="font-size: 1.1em; line-height: 1.4; color: #333;">{{ mensaje.contenido }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

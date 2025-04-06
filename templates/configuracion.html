@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToonLook - Configuración</title>
+    <link rel="stylesheet" href="/static/retro.css">
+    <style>
+        .preview-container {
+            margin: 10px 0;
+            border: 2px solid #9999FF;
+            padding: 10px;
+            background-color: #000033;
+        }
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            border: 2px solid #9999FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: #333399; padding: 10px; border: 2px solid #9999FF; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #FFFF00; font-family: 'Comic Sans MS', cursive;">Configuración de Perfil</h1>
+            <div class="nav">
+                <a href="/home" class="button-img">Inicio</a>
+                <a href="/profile" class="button-img">Mi Perfil</a>
+                <a href="/amigos" class="button-img">Amigos</a>
+                <a href="/mensajes" class="button-img">Mensajes</a>
+                <a href="/configuracion" class="button-img">Configuración</a>
+                <a href="/logout" class="button-img">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <div class="perfil-container">
+            <form method="POST" action="/configuracion" class="form-retro" enctype="multipart/form-data">
+                <div class="perfil-header">Personalización del Perfil</div>
+                
+
+
+                <div class="perfil-header" style="margin-top: 20px;">Configuración General</div>
+                <div class="form-group">
+                    <label>Privacidad del Perfil:</label>
+                    <select name="privacidad_perfil" class="input-retro">
+                        <option value="publico" {% if usuario.configuracion.privacidad_perfil == 'publico' %}selected{% endif %}>Público</option>
+                        <option value="amigos" {% if usuario.configuracion.privacidad_perfil == 'amigos' %}selected{% endif %}>Solo Amigos</option>
+                        <option value="privado" {% if usuario.configuracion.privacidad_perfil == 'privado' %}selected{% endif %}>Privado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mostrar Estado:</label>
+                    <input type="checkbox" name="mostrar_estado" value="true" {% if usuario.configuracion.mostrar_estado %}checked{% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <label>Notificaciones por Email:</label>
+                    <input type="checkbox" name="notificaciones_email" value="true" {% if usuario.configuracion.notificaciones_email %}checked{% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <label>Notificaciones de Mensajes:</label>
+                    <input type="checkbox" name="notificaciones_mensajes" value="true" {% if usuario.configuracion.notificaciones_mensajes %}checked{% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <label>Notificaciones de Solicitudes de Amistad:</label>
+                    <input type="checkbox" name="notificaciones_amigos" value="true" {% if usuario.configuracion.notificaciones_amigos %}checked{% endif %}>
+                </div>
+
+
+                </div>
+
+                <div class="perfil-header" style="margin-top: 20px;">Redes Sociales</div>
+                <div class="form-group">
+                    <label>Facebook:</label>
+                    <input type="text" name="facebook" class="input-retro" value="{{ usuario.configuracion.redes_sociales.get('facebook', '') }}" placeholder="Tu perfil de Facebook">
+                </div>
+
+                <div class="form-group">
+                    <label>Twitter:</label>
+                    <input type="text" name="twitter" class="input-retro" value="{{ usuario.configuracion.redes_sociales.get('twitter', '') }}" placeholder="Tu perfil de Twitter">
+                </div>
+
+                <div class="form-group">
+                    <label>Instagram:</label>
+                    <input type="text" name="instagram" class="input-retro" value="{{ usuario.configuracion.redes_sociales.get('instagram', '') }}" placeholder="Tu perfil de Instagram">
+                </div>
+
+                <div class="form-group">
+                    <label>YouTube:</label>
+                    <input type="text" name="youtube" class="input-retro" value="{{ usuario.configuracion.redes_sociales.get('youtube', '') }}" placeholder="Tu canal de YouTube">
+                </div>
+
+                <input type="submit" value="Guardar Cambios" class="submit-button">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

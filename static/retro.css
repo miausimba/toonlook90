@@ -1,10 +1,26 @@
 /* Estilos base */
 body {
-    background: #000066;
+    background: #000066 url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='2' height='2' fill='%23ffffff10'/%3E%3C/svg%3E");
     color: #FFFFFF;
     font-family: "MS Sans Serif", Arial, sans-serif;
     margin: 0;
     padding: 0;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M0,0 L12,6 L6,12 L0,0' fill='white' stroke='black'/%3E%3C/svg%3E") 0 0, auto;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes rainbow {
+    0% { color: #ff0000; }
+    20% { color: #ffff00; }
+    40% { color: #00ff00; }
+    60% { color: #00ffff; }
+    80% { color: #ff00ff; }
+    100% { color: #ff0000; }
 }
 
 /* Estilos de botones */
@@ -12,7 +28,7 @@ body {
     width: 150px;
     height: 40px;
     margin: 5px 0;
-    background-color: #666699;
+    background: linear-gradient(to bottom, #666699, #333366);
     border: 2px outset #9999CC;
     color: yellow;
     font-weight: bold;
@@ -21,6 +37,9 @@ body {
     text-decoration: none;
     display: block;
     margin: 10px;
+    text-shadow: 2px 2px #000000;
+    position: relative;
+    overflow: hidden;
 }
 
 .button-img:hover {
@@ -75,6 +94,24 @@ img {
     border: 2px outset #9999CC;
     margin: 10px 0;
     padding: 15px;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.mensaje:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px #9999CC;
+}
+
+.mensaje::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #9999CC, #FFFFFF, #9999CC);
+    animation: rainbow 3s infinite;
 }
 
 .mensaje-contenido {
@@ -96,6 +133,8 @@ img {
     margin-bottom: 20px;
 }
 
+
+
 .perfil-header {
     background: #333399;
     color: #FFFFFF;
@@ -111,6 +150,40 @@ img {
     color: #FFFFFF;
     padding: 10px;
     margin-top: 20px;
+    border: 2px ridge #9999CC;
+    box-shadow: inset 0 0 10px #000066;
+}
+
+.estado-animo {
+    display: inline-block;
+    margin-right: 5px;
+    animation: blink 2s infinite;
+}
+
+.contador-visitas {
+    background: #000033;
+    border: 2px inset #9999CC;
+    padding: 5px;
+    text-align: center;
+    margin: 10px 0;
+    font-family: "Courier New", monospace;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.libro-visitas {
+    background: #000044;
+    border: 2px solid #9999CC;
+    padding: 10px;
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.libro-visitas-entrada {
+    border-bottom: 1px dotted #9999CC;
+    padding: 5px 0;
+    font-size: 0.9em;
 }
 
 .usuarios-online h3 {
